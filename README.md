@@ -1,8 +1,6 @@
-## Initiez-vous au MLOPS
+## Confirmez vos compétences en MLOPS
 
 ## Mission 
-
- 
 
 Vous êtes Data Scientist dans l'entreprise "Prêt à Dépenser". 
 Après avoir développé et versionné un modèle de scoring (Projet Initiez-vous au MLops), vous recevez un message Slack de Chloé Dubois, la Lead Data Scientist :
