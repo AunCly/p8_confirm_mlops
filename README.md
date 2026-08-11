@@ -2,21 +2,24 @@
 
 ## Mission 
 
-Vous êtes Data Scientist au sein d'une société financière, nommée "Prêt à dépenser", 
-qui propose des crédits à la consommation pour des personnes ayant peu ou pas du tout d'historique de prêt.
-L’entreprise souhaite mettre en œuvre un outil de “scoring crédit” pour calculer la probabilité qu’un client rembourse son crédit, 
-puis classifie la demande en crédit accordé ou refusé. 
-Elle souhaite donc développer un algorithme de classification en s’appuyant sur des sources de données variées (données comportementales, données provenant d'autres institutions financières, etc.)
+ 
 
+Vous êtes Data Scientist dans l'entreprise "Prêt à Dépenser". 
+Après avoir développé et versionné un modèle de scoring (Projet Initiez-vous au MLops), vous recevez un message Slack de Chloé Dubois, la Lead Data Scientist :
 
-Votre mission :
+> Salut ! Excellents résultats sur la dernière version du modèle de scoring ! 
+> 
+> Le département 'Crédit Express' est très impatient 
+> de l'utiliser pour traiter les nouvelles demandes en quasi temps réel. Il nous faut absolument une API fonctionnelle et déployable (Docker Ready!) 
+> d'ici la fin de la semaine prochaine. 
+> 
+> Peux-tu prioriser ça ? On a aussi besoin d'un dashboard ou rapport de suivi pour vérifier que tout se passe 
+> bien une fois en prod (distribution des scores, temps de réponse, ce genre de choses).
+> 
+> Tiens-moi au courant de ton plan d'action ! Merci !
 
-Construire et optimiser un modèle de scoring qui donnera une prédiction sur la probabilité de faillite d'un client de façon automatique.
-Analyser les features qui contribuent le plus au modèle, d’une manière générale (feature importance globale) et au niveau d’un client (feature importance locale), afin, dans un soucis de transparence, de permettre à un chargé d’études de mieux comprendre le score attribué par le modèle.
-Mettre en œuvre une approche globale MLOps de bout en bout, du tracking des expérimentations à la pré-production du modèle.
-Michaël, votre manager, vous incite à sélectionner un ou des kernels Kaggle pour vous faciliter l’analyse exploratoire, la préparation des données et le feature engineering nécessaires à l’élaboration du modèle de scoring. 
+Vous voila donc chargé de piloter la mise en production effective du modèle de scoring. Cela inclut la création d'une API robuste, 
+la conteneurisation pour un déploiement fluide, et la mise en place d'un monitoring proactif pour garantir 
+la performance et la fiabilité du modèle dans le temps.
 
-Kernel Kaggle 1 : https://www.kaggle.com/code/jsaguiar/lightgbm-with-simple-features/script
-Kernel Kaggle 2 : https://www.kaggle.com/code/willkoehrsen/start-here-a-gentle-introduction/notebook#Feature-Engineering
-
-Github : https://github.com/AunCly/p6_initiation_mlops
+Github : https://github.com/AunCly/p8_confirm_mlops
