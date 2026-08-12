@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:7860"
+    environment:
+      PYTHONUNBUFFERED: "1"
+
+volumes:
+  postgres_data:
