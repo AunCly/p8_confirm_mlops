@@ -15,3 +15,5 @@ data
 .coverage
 mlflow.db
 mlartifacts
+prediction.log
+notebooks/drift_report.json
