@@ -286,7 +286,7 @@ class ApplicationModel(BaseModel):
     bur_type_credit_type_another_type_of_loan: Optional[float] = None
     bur_type_credit_type_car_loan: Optional[float] = None
     bur_type_credit_type_cash_loan_non_earmarked: Optional[float] = Field(
-        None, alias="bur_type_credit_type_cash_loan-non-earmarked"
+        None, alias="bur_type_credit_type_cash_loan_non-earmarked"
     )
     bur_type_credit_type_consumer_credit: Optional[float] = None
     bur_type_credit_type_credit_card: Optional[float] = None

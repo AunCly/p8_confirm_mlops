@@ -1,9 +1,12 @@
 import os
+import time
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, Depends, HTTPException, Security
 from fastapi.security import APIKeyHeader
 
 from api.application_model import ApplicationModel
+from api.logger import Logger
 from models.predictor import ApplicationRiskPredictor
 
 load_dotenv()
@@ -67,9 +70,27 @@ def health_endpoint():
 )
 def predict_endpoint(application: ApplicationModel):
 
+    start_time = time.time()
+
     prediction = api_predict(application)
+    end_time = time.time()
+    logger = Logger()
+    logger.log(application.model_dump(), prediction, (end_time - start_time))
 
     return prediction
 
 
 
+@app.get(
+    "/predictions",
+    dependencies=[Depends(verify_api_key)],
+    summary="Récupérer les prédictions",
+    responses={
+        200: {"description": "Prédictions récupérées avec succès"},
+        401: {"description": "Clé API manquante ou invalide"},
+    }
+)
+def get_predictions():
+    logger = Logger()
+    logs = logger.get_logs()
+    return logs

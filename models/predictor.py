@@ -8,22 +8,17 @@ import numpy as np
 
 from api.application_model import ApplicationModel
 
+
 def format_data_for_ml_model(application: ApplicationModel) -> pd.DataFrame:
-    data = pd.DataFrame([application.model_dump()])
+    # 1. On récupère le dictionnaire brut de Pydantic
+    data_dict = application.model_dump()
 
-    # 2. Remplacer les None par np.nan pour que Pandas garde un type numérique (float)
-    cleaned_data = {
-        k: (v if v is not None else np.nan) for k, v in data.items()
-    }
+    # 2. On crée le DataFrame (1 ligne, X colonnes)
+    df = pd.DataFrame([data_dict])
 
-    # 3. Créer le DataFrame Pandas
-    df = pd.DataFrame([cleaned_data])
-
-    # 4. Convertir les booléens en entiers (0/1) ou s'assurer que tout est numérique
-    # LightGBM gère parfaitement les floats avec des NaN pour les valeurs manquantes
-    for col in df.columns:
-        # Convertit les colonnes booléennes ou object en float/numeric
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+    # 3. On convertit tout en numérique (les booléens deviennent 0/1,
+    # et les None ou valeurs invalides deviennent automatiquement des np.nan)
+    df = df.apply(pd.to_numeric, errors="coerce")
 
     return df
 
