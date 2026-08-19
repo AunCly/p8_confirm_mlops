@@ -1,3 +1,4 @@
+import cProfile
 import os
 import time
 
@@ -8,11 +9,13 @@ from fastapi.security import APIKeyHeader
 from api.application_model import ApplicationModel
 from api.logger import Logger
 from models.predictor import ApplicationRiskPredictor
+from models.onnx_predictor import OnnxApplicationRiskPredictor
 
 load_dotenv()
 
 api_key_header = APIKeyHeader(name="x-api-key")
-predictor = ApplicationRiskPredictor()
+#predictor = ApplicationRiskPredictor()
+predictor = OnnxApplicationRiskPredictor()
 
 def api_predict(application: ApplicationModel):
     result = predictor.predict(application)
@@ -69,6 +72,8 @@ def health_endpoint():
     }
 )
 def predict_endpoint(application: ApplicationModel):
+    profiler = cProfile.Profile()
+    profiler.enable()
 
     start_time = time.time()
 
@@ -76,6 +81,9 @@ def predict_endpoint(application: ApplicationModel):
     end_time = time.time()
     logger = Logger()
     logger.log(application.model_dump(), prediction, (end_time - start_time))
+
+    profiler.disable()
+    profiler.print_stats()
 
     return prediction
 
