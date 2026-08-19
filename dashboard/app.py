@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import streamlit as st
 from api.logger import Logger
@@ -25,7 +26,8 @@ with col1:
     st.metric(label="Nombre de prédictions : ", value=len(prod_application))
 with col2:
     st.metric(label="Montant moyen demandés", value=prod_application['app_AMT_CREDIT'].mean())
-
+with col3:
+    st.metric(label="Temps d'inférence", value=f"{np.round(np.mean([log['duration'] for log in logs]), 2)}s")
 
 # Fonction de chargement du fichier JSON
 @st.cache_data
