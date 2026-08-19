@@ -21,3 +21,7 @@ la conteneurisation pour un déploiement fluide, et la mise en place d'un monito
 la performance et la fiabilité du modèle dans le temps.
 
 Github : https://github.com/AunCly/p8_confirm_mlops
+
+## Documentation
+
+La documentation complète dans le fichier DOCUMENTATION.md vous guidera à travers les étapes de mise en place de l'API, la conteneurisation avec Docker, et la configuration du monitoring.
