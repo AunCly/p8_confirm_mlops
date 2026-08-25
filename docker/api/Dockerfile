@@ -9,9 +9,12 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
+# On copie directement depuis la racine du contexte
 COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen
 
+# On copie tout le reste du code
 COPY . .
 
+#FastApi
 CMD ["uv", "run", "fastapi", "run", "api/main.py", "--port", "7860"]
