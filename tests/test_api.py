@@ -6,6 +6,7 @@ import pytest
 from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 from api.main import app
+from database import database_manager as database
 load_dotenv()
 
 client = TestClient(app)
@@ -23,6 +24,12 @@ def load_sample(type = 'normal'):
         raise ValueError("Type must be 'normal', 'missing' or 'wrong'")
 
     return json.loads(data)
+
+@pytest.fixture(autouse=True)
+def setup_test_db():
+    # Cette fonction s'exécutera automatiquement avant CHAQUE test
+    database.create_database()
+    yield
 
 @pytest.fixture
 def load_normal_sample():
