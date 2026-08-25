@@ -4,16 +4,16 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import streamlit as st
-from api.logger import Logger
+from database import database_manager as database
 
 st.set_page_config(
     page_title="Dashboard Suivi", page_icon="📈", layout="wide"
 )
 
 st.title("📊 Dashboard de Suivi")
-logger = Logger()
-logs = logger.get_logs()
-prod_application = [log['input'] for log in logs]
+
+predictions = database.get_predictions()
+prod_application = [prediction['input_data'] for prediction in predictions]
 
 prod_application = pd.DataFrame(prod_application)
 prod_application = prod_application.apply(pd.to_numeric, errors="coerce").astype('float64')
@@ -27,7 +27,7 @@ with col1:
 with col2:
     st.metric(label="Montant moyen demandés", value=prod_application['app_AMT_CREDIT'].mean())
 with col3:
-    st.metric(label="Temps d'inférence", value=f"{np.round(np.mean([log['duration'] for log in logs]), 2)}s")
+    st.metric(label="Temps d'inférence", value=f"{np.round(np.mean([prediction['inference_time'] for prediction in predictions]), 2)}s")
 
 # Fonction de chargement du fichier JSON
 @st.cache_data

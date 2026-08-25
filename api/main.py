@@ -7,14 +7,13 @@ from fastapi import FastAPI, Depends, HTTPException, Security
 from fastapi.security import APIKeyHeader
 
 from api.application_model import ApplicationModel
-from api.logger import Logger
-from models.predictor import ApplicationRiskPredictor
 from models.onnx_predictor import OnnxApplicationRiskPredictor
+from contextlib import asynccontextmanager
+from database import database_manager as database
 
 load_dotenv()
 
 api_key_header = APIKeyHeader(name="x-api-key")
-#predictor = ApplicationRiskPredictor()
 predictor = OnnxApplicationRiskPredictor()
 
 def api_predict(application: ApplicationModel):
@@ -26,7 +25,13 @@ def api_predict(application: ApplicationModel):
         "probability": result['probability'],
     }
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    database.create_database()
+    yield
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Api de prédiction du risque d'attribution d'un crédit bancaire.",
     description="Cette API permet de prédire le risque d'attribution d'un crédit bancaire pour un demande donné.",
     version="0.0.1",
@@ -76,11 +81,10 @@ def predict_endpoint(application: ApplicationModel):
     profiler.enable()
 
     start_time = time.time()
-
     prediction = api_predict(application)
     end_time = time.time()
-    logger = Logger()
-    logger.log(application.model_dump(), prediction, (end_time - start_time))
+
+    database.save_prediction(application.SK_ID_CURR, application.model_dump(), prediction['prediction'], prediction['probability'], end_time - start_time)
 
     profiler.disable()
     profiler.print_stats()
@@ -99,6 +103,5 @@ def predict_endpoint(application: ApplicationModel):
     }
 )
 def get_predictions():
-    logger = Logger()
-    logs = logger.get_logs()
-    return logs
+    predictions = database.get_predictions()
+    return predictions
