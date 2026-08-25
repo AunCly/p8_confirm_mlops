@@ -20,7 +20,7 @@ def create_database():
     # Si le fichier de base de données n'existe pas, créer la structure de la base de données
     structure_sql = Path(__file__).parent / "structure.sql"
 
-    if not structure_sql.exists():
+    if structure_sql.exists():
         conn.execute("PRAGMA foreign_keys = ON;")  # Activer les clés étrangères pour SQLite
         try:
             with open(structure_sql, "r") as f:

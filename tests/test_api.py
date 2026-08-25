@@ -6,8 +6,6 @@ import pytest
 from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 from api.main import app
-import pandas as pd
-
 load_dotenv()
 
 client = TestClient(app)
