@@ -1,4 +1,4 @@
-name: Running API Tests and deploy on HF Spaces
+name: Running API Tests and deploy on Render
 
 on:
   push:
@@ -43,10 +43,5 @@ jobs:
           lfs: true
         uses: actions/checkout@v4
 
-      - name: Push to Hugging Face Space
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          HF_SPACE_ID: ${{ vars.HF_SPACE_ID }}
-        run: |
-          git remote add space https://user:$HF_TOKEN@huggingface.co/spaces/$HF_SPACE_ID
-          git push --force space HEAD:main
+      - name: Deploy on Render
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
