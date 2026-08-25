@@ -2,23 +2,10 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./docker/api/Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - .:/app
     ports:
       - "8000:7860" # Accessible depuis http://localhost:8000
     environment:
       PYTHONUNBUFFERED: "1"
-
-  dashboard:
-    build:
-      context: .
-      dockerfile: ./docker/dashboard/Dockerfile
-    volumes:
-      - .:/app
-    ports:
-      - "8501:8501" # Accessible depuis http://localhost:8501
-    environment:
-      PYTHONUNBUFFERED: "1"
-    depends_on:
-      - api
